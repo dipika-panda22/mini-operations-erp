@@ -34,15 +34,18 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-sequelize.sync()
-    .then(() => {
-        console.log("Database tables created successfully!");
+if (require.main === module) {
+    sequelize.sync()
+        .then(() => {
+            console.log("Database tables created successfully!");
 
-        app.listen(PORT, () => {
-            console.log(`Server running on port ${PORT}`);
+            app.listen(PORT, () => {
+                console.log(`Server running on port ${PORT}`);
+            });
+        })
+        .catch((error) => {
+            console.error("Database connection failed:", error);
         });
-    })
-    .catch((error) => {
-        console.error("Database setup failed:");
-        console.error(error.message);
-    });
+}
+
+module.exports = app;

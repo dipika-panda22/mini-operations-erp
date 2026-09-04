@@ -36,6 +36,22 @@ const createLocation = async (req, res) => {
     }
 };
 
+const getLocations = async (req, res) => {
+    try {
+        const locations = await Location.findAll({
+            order: [["id", "ASC"]]
+        });
+
+        res.json(locations);
+    } catch (error) {
+        res.status(500).json({
+            message: "Failed to fetch locations",
+            error: error.message
+        });
+    }
+};
+
 module.exports = {
-    createLocation
+    createLocation,
+    getLocations
 };
